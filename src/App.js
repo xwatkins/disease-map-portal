@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
+import MinervaMap from "./MinervaMap";
+import UniProtList from "./UniProtList";
 
 function App() {
+  const [accession, setAccession] = useState();
+
+  useEffect(() => {
+    window.addEventListener("map-click", e => {
+      const reference = e.detail[0].references.find(
+        ref => ref.type === "UNIPROT"
+      );
+      if (!reference) {
+        return;
+      }
+      setAccession(reference.resource);
+    });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {accession && <UniProtList accession={accession} />}
+      <MinervaMap />
     </div>
   );
 }

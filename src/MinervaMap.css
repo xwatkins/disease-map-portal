@@ -1,0 +1,5 @@
+.map {
+  height: calc(100% - 40px);
+  width: 100%;
+  background-color: #e4e2de;
+}
